@@ -11,6 +11,7 @@ import asyncio
 from rag_system import RAGSystem
 from conversation_manager import ConversationManager
 from database import Database
+from practical_features import PracticalFeatures
 
 load_dotenv()
 
@@ -29,6 +30,7 @@ app.add_middleware(
 database = Database()
 rag_system = RAGSystem()
 conversation_manager = ConversationManager(rag_system, database)
+practical_features = PracticalFeatures(database)
 
 
 # Pydantic models
@@ -182,6 +184,106 @@ async def get_all_achievements():
     achievements = [dict(row) for row in cursor.fetchall()]
     conn.close()
     return {"status": "success", "achievements": achievements}
+
+
+# Practical Features Endpoints
+@app.get("/api/scenarios")
+async def get_scenarios(language: Optional[str] = None, category: Optional[str] = None, difficulty: Optional[str] = None):
+    """Get conversation scenarios"""
+    scenarios = practical_features.get_scenarios(language, category, difficulty)
+    return {"status": "success", "scenarios": scenarios}
+
+
+@app.post("/api/scenarios/{scenario_id}/start")
+async def start_scenario(scenario_id: str, username: str):
+    """Start a conversation scenario"""
+    user = database.get_user(username)
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    practical_features.start_scenario(user['id'], scenario_id)
+    return {"status": "success", "message": "Scenario started"}
+
+
+@app.post("/api/scenarios/{scenario_id}/complete")
+async def complete_scenario(scenario_id: str, username: str, rating: Optional[int] = None):
+    """Complete a conversation scenario"""
+    user = database.get_user(username)
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    xp_earned = practical_features.complete_scenario(user['id'], scenario_id, rating)
+    return {"status": "success", "xp_earned": xp_earned}
+
+
+@app.get("/api/daily-challenge/{username}")
+async def get_daily_challenge(username: str, language: str = "English"):
+    """Get today's daily challenge"""
+    user = database.get_user(username)
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    challenge = practical_features.get_daily_challenge(user['id'], language)
+    return {"status": "success", "challenge": challenge}
+
+
+@app.post("/api/daily-challenge/check")
+async def check_daily_challenge(username: str):
+    """Check if daily challenge is completed"""
+    user = database.get_user(username)
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    completed = practical_features.check_daily_challenge(user['id'])
+    return {"status": "success", "completed": completed}
+
+
+@app.get("/api/topics")
+async def get_topics():
+    """Get all learning topics"""
+    topics = practical_features.get_topics()
+    return {"status": "success", "topics": topics}
+
+
+@app.get("/api/flashcards/{username}")
+async def get_flashcards(username: str, language: str, limit: int = 10):
+    """Get vocabulary flashcards for review"""
+    user = database.get_user(username)
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    flashcards = database.get_vocabulary_for_review(user['id'], language, limit)
+    return {"status": "success", "flashcards": flashcards}
+
+
+@app.post("/api/flashcards/review")
+async def review_flashcard(username: str, vocab_id: str, confidence: int):
+    """Update flashcard review with confidence rating"""
+    user = database.get_user(username)
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    from datetime import timedelta
+    conn = database.get_connection()
+    cursor = conn.cursor()
+
+    # Update review count and schedule next review based on confidence
+    days_until_next = [1, 3, 7, 14, 30][min(confidence, 4)]  # 0-4 confidence levels
+    next_review = (datetime.now() + timedelta(days=days_until_next)).date().isoformat()
+
+    cursor.execute("""
+        UPDATE vocabulary_items
+        SET last_reviewed = CURRENT_TIMESTAMP,
+            review_count = review_count + 1,
+            confidence_level = ?,
+            next_review_date = ?
+        WHERE id = ? AND user_id = ?
+    """, (confidence, next_review, vocab_id, user['id']))
+
+    conn.commit()
+    conn.close()
+
+    return {"status": "success", "next_review": next_review}
 
 
 @app.websocket("/ws/practice")

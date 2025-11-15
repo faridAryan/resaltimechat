@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import './LanguagePractice.css';
 import AchievementNotification from './AchievementNotification';
 
-const LanguagePractice = ({ language, username }) => {
+const LanguagePractice = ({ language, username, activeScenario }) => {
   const [messages, setMessages] = useState([]);
   const [inputText, setInputText] = useState('');
   const [isConnected, setIsConnected] = useState(false);
@@ -13,6 +13,7 @@ const LanguagePractice = ({ language, username }) => {
   const [currentLevel, setCurrentLevel] = useState('beginner');
   const [stats, setStats] = useState({ messages: 0, corrections: 0, perfect_messages: 0 });
   const [achievement, setAchievement] = useState(null);
+  const [currentScenario, setCurrentScenario] = useState(null);
 
   const wsRef = useRef(null);
   const recognitionRef = useRef(null);
@@ -81,6 +82,16 @@ const LanguagePractice = ({ language, username }) => {
         setSessionId(data.session_id);
         setCurrentLevel(data.current_level);
         addMessage('system', `Session started! Practicing ${language} at ${data.current_level} level.`);
+
+        // If there's an active scenario, start with it
+        if (activeScenario && !currentScenario) {
+          setCurrentScenario(activeScenario);
+          addMessage('system', `🎭 Scenario: ${activeScenario.title}`);
+          addMessage('system', activeScenario.context);
+          if (activeScenario.conversation_starter) {
+            setInputText(activeScenario.conversation_starter);
+          }
+        }
       } else if (data.type === 'response') {
         addMessage('assistant', data.text);
 

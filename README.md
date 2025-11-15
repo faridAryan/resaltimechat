@@ -2,7 +2,36 @@
 
 An advanced, interactive language learning application that combines RAG (Retrieval-Augmented Generation) technology with gamification, adaptive difficulty, real-time conversations, and comprehensive progress tracking to create an engaging and personalized learning experience.
 
-## ✨ New Features (Version 2.0)
+## 🎯 Practical Learning Features (NEW!)
+
+### Conversation Scenarios
+- **8 Pre-built Scenarios**: Restaurant, Hotel, Directions, Shopping, Job Interview, Doctor, Social, Business
+- **Real-world Practice**: Simulate authentic situations you'll encounter
+- **Guided Conversations**: Context and vocabulary provided for each scenario
+- **Difficulty Levels**: Scenarios range from beginner to advanced
+- **Category Filters**: Travel, Dining, Shopping, Professional, Social, Health
+
+### Daily Challenges
+- **New Challenge Every Day**: Fresh tasks to keep you motivated
+- **Challenge Types**: Message goals, perfect accuracy, vocabulary learning, scenario completion
+- **XP Rewards**: Earn 50-100 XP for completing challenges
+- **Progress Tracking**: Real-time progress updates
+- **Streak Building**: Daily practice for maximum retention
+
+### Vocabulary Flashcards
+- **Spaced Repetition**: Smart review scheduling based on confidence
+- **Interactive Review**: Flip cards to test your knowledge
+- **Confidence Ratings**: Rate Easy, Medium, or Hard
+- **Auto-generated**: Words automatically extracted from conversations
+- **Progress Stats**: Track review count and confidence levels
+
+### Learning Topics
+- 8 organized topics: Greetings, Numbers, Food, Travel, Shopping, Health, Business, Culture
+- Difficulty-based organization
+- Focused practice on specific areas
+
+## ✨ Core Features (Version 2.0)
+
 
 ### 👤 User-Centric Learning
 - **User Profiles**: Personalized accounts with progress tracking across multiple languages

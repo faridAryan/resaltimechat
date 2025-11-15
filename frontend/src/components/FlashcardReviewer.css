@@ -1,0 +1,303 @@
+.flashcard-reviewer {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.review-header h3 {
+  color: #333;
+  margin: 0;
+}
+
+.progress {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: 600;
+}
+
+.flashcard {
+  height: 400px;
+  perspective: 1000px;
+}
+
+.flashcard-content {
+  width: 100%;
+  height: 100%;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+  position: relative;
+}
+
+.flashcard.flipped .flashcard-content {
+  transform: rotateY(180deg);
+}
+
+.flashcard-front,
+.flashcard-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  background: white;
+  border: 3px solid #667eea;
+  border-radius: 16px;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 8px 32px rgba(102, 126, 234, 0.2);
+}
+
+.flashcard-back {
+  transform: rotateY(180deg);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-color: #764ba2;
+}
+
+.card-label {
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  opacity: 0.7;
+  margin-bottom: 16px;
+}
+
+.card-word {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #667eea;
+  margin-bottom: 24px;
+}
+
+.card-translation {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.card-context {
+  width: 100%;
+  padding: 16px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  margin-top: auto;
+}
+
+.card-context strong {
+  display: block;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+.card-context p {
+  margin: 0;
+  color: #666;
+  line-height: 1.5;
+}
+
+.card-stats {
+  display: flex;
+  gap: 24px;
+  margin-top: auto;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.stat-label {
+  font-size: 0.8rem;
+  opacity: 0.8;
+}
+
+.stat-value {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.flashcard-actions {
+  display: flex;
+  justify-content: center;
+}
+
+.show-answer-button {
+  padding: 16px 48px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 16px rgba(102, 126, 234, 0.4);
+}
+
+.show-answer-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+}
+
+.confidence-buttons {
+  text-align: center;
+  width: 100%;
+}
+
+.confidence-buttons p {
+  margin-bottom: 16px;
+  color: #666;
+  font-weight: 600;
+}
+
+.button-group {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.confidence-btn {
+  padding: 12px 24px;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  flex: 1;
+  min-width: 120px;
+}
+
+.confidence-btn.hard {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+.confidence-btn.hard:hover {
+  background: #f5c6cb;
+}
+
+.confidence-btn.medium {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.confidence-btn.medium:hover {
+  background: #ffeaa7;
+}
+
+.confidence-btn.easy {
+  background: #d4edda;
+  color: #155724;
+}
+
+.confidence-btn.easy:hover {
+  background: #c3e6cb;
+}
+
+.review-tips {
+  background: #e7f3ff;
+  padding: 16px;
+  border-radius: 8px;
+  border-left: 4px solid #667eea;
+  font-size: 0.9rem;
+  color: #333;
+}
+
+.empty-flashcards,
+.review-complete {
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.empty-icon,
+.complete-icon {
+  font-size: 5rem;
+  margin-bottom: 20px;
+}
+
+.empty-flashcards h3,
+.review-complete h3 {
+  color: #333;
+  margin-bottom: 12px;
+}
+
+.empty-flashcards p,
+.review-complete p {
+  color: #666;
+  margin-bottom: 8px;
+}
+
+.hint {
+  font-size: 0.9rem;
+  font-style: italic;
+  color: #999;
+}
+
+.review-again-button {
+  margin-top: 24px;
+  padding: 12px 32px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.review-again-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.loading {
+  text-align: center;
+  padding: 60px 20px;
+  color: #999;
+  font-size: 1.1rem;
+}
+
+@media (max-width: 768px) {
+  .flashcard {
+    height: 350px;
+  }
+
+  .flashcard-front,
+  .flashcard-back {
+    padding: 24px;
+  }
+
+  .card-word {
+    font-size: 2rem;
+  }
+
+  .card-translation {
+    font-size: 1.8rem;
+  }
+
+  .button-group {
+    flex-direction: column;
+  }
+
+  .confidence-btn {
+    min-width: unset;
+  }
+}

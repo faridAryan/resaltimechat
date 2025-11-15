@@ -1,0 +1,219 @@
+.scenario-browser {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.browser-header h3 {
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.browser-header p {
+  color: #666;
+  margin: 0;
+}
+
+.filters {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.filter-group label {
+  font-weight: 600;
+  color: #333;
+}
+
+.category-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.category-pill {
+  padding: 8px 16px;
+  background: white;
+  border: 2px solid #e9ecef;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.category-pill:hover {
+  border-color: #667eea;
+  background: #f8f9ff;
+}
+
+.category-pill.active {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-color: #667eea;
+}
+
+.filter-group select {
+  padding: 10px 16px;
+  border: 2px solid #e9ecef;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.scenarios-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.scenario-card {
+  background: white;
+  border: 2px solid #e9ecef;
+  border-radius: 12px;
+  padding: 20px;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.scenario-card:hover {
+  border-color: #667eea;
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(102, 126, 234, 0.2);
+}
+
+.scenario-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  gap: 12px;
+}
+
+.scenario-header h4 {
+  margin: 0;
+  color: #333;
+  font-size: 1.2rem;
+  flex: 1;
+}
+
+.difficulty-badge {
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.difficulty-badge.beginner {
+  background: #d4edda;
+  color: #155724;
+}
+
+.difficulty-badge.intermediate {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.difficulty-badge.advanced {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+.scenario-category {
+  color: #667eea;
+  font-weight: 600;
+  text-transform: capitalize;
+  font-size: 0.9rem;
+}
+
+.scenario-description {
+  color: #666;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.scenario-context {
+  padding: 12px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.scenario-context strong {
+  color: #333;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.scenario-vocabulary {
+  padding: 12px;
+  background: #e7f3ff;
+  border-radius: 8px;
+  font-size: 0.9rem;
+}
+
+.scenario-vocabulary strong {
+  color: #333;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.vocab-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.vocab-tag {
+  padding: 4px 10px;
+  background: white;
+  border: 1px solid #667eea;
+  color: #667eea;
+  border-radius: 12px;
+  font-size: 0.8rem;
+}
+
+.start-scenario-button {
+  padding: 12px 24px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: auto;
+}
+
+.start-scenario-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.empty-state,
+.loading {
+  text-align: center;
+  padding: 60px 20px;
+  color: #999;
+  font-size: 1.1rem;
+}
+
+@media (max-width: 768px) {
+  .scenarios-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .category-pills {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+  }
+}
