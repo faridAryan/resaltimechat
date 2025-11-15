@@ -1,0 +1,125 @@
+.achievement-notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 2000;
+  animation: slideInRight 0.5s ease-out, shake 0.5s ease-out 0.5s;
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(400px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+  20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+.achievement-notification-content {
+  background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+  color: #333;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(255, 165, 0, 0.5);
+  display: flex;
+  gap: 16px;
+  min-width: 350px;
+  max-width: 400px;
+  position: relative;
+  border: 3px solid #FFE55C;
+}
+
+.achievement-badge {
+  flex-shrink: 0;
+  width: 80px;
+  height: 80px;
+  background: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.achievement-icon-large {
+  font-size: 3rem;
+}
+
+.achievement-info {
+  flex: 1;
+}
+
+.achievement-title {
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+  color: #8B4513;
+}
+
+.achievement-name {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+  color: #333;
+}
+
+.achievement-desc {
+  font-size: 0.9rem;
+  margin-bottom: 8px;
+  color: #555;
+}
+
+.achievement-xp {
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.8);
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: #FF6B00;
+}
+
+.notification-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(0, 0, 0, 0.1);
+  border: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1rem;
+  color: #333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.notification-close:hover {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 768px) {
+  .achievement-notification {
+    top: 10px;
+    right: 10px;
+    left: 10px;
+  }
+
+  .achievement-notification-content {
+    min-width: unset;
+    max-width: unset;
+  }
+}

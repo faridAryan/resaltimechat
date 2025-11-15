@@ -1,367 +1,298 @@
-# Real-time Language Practice with RAG System
+# Learno - Interactive Language Learning Platform
 
-A powerful real-time language learning application that combines RAG (Retrieval-Augmented Generation) technology with speech-to-text and text-to-speech capabilities to help users practice languages through interactive conversations.
+An advanced, interactive language learning application that combines RAG (Retrieval-Augmented Generation) technology with gamification, adaptive difficulty, real-time conversations, and comprehensive progress tracking to create an engaging and personalized learning experience.
 
-## Features
+## ✨ New Features (Version 2.0)
 
-- **Real-time Conversations**: Practice languages through live conversations with an AI assistant
-- **Speech-to-Text**: Speak naturally and have your speech converted to text
-- **Text-to-Speech**: Hear responses in the target language with natural pronunciation
-- **RAG System**: Upload learning materials to provide context for more relevant conversations
-- **Language Corrections**: Get instant feedback on grammar and vocabulary
-- **Multiple Languages**: Support for English, Spanish, French, German, Italian, Portuguese, Chinese, Japanese, Korean, and Arabic
-- **WebSocket Communication**: Real-time, low-latency communication
-- **Modern UI**: Clean, responsive React interface
+### 👤 User-Centric Learning
+- **User Profiles**: Personalized accounts with progress tracking across multiple languages
+- **Adaptive Difficulty**: System automatically adjusts difficulty (beginner → intermediate → advanced → expert) based on your performance
+- **Progress Analytics**: Detailed insights into your learning journey with charts and statistics
+- **Daily Streaks**: Track consecutive days of practice to build consistency
 
-## Architecture
+### 🏆 Gamification
+- **Achievement System**: Unlock 7+ achievements as you progress
+- **Experience Points (XP)**: Earn points for every message and achievement
+- **Leaderboards**: Compare your progress with other learners
+- **Real-time Notifications**: Celebrate achievements as you unlock them
 
-### Backend
-- **FastAPI**: High-performance Python web framework
-- **ChromaDB**: Vector database for RAG functionality
-- **OpenAI API**: Language model for conversations and analysis
-- **WebSockets**: Real-time communication
-- **Sentence Transformers**: Document embeddings
+### 🧠 Intelligent Learning
+- **Vocabulary Tracking**: Automatically tracks new words you learn
+- **Mistake Analysis**: Records and analyzes your errors for targeted practice
+- **Contextual Learning**: RAG system provides relevant examples from your uploaded materials
+- **Performance-Based Adaptation**: Difficulty adjusts based on your accuracy
 
-### Frontend
-- **React**: Modern UI framework
-- **Web Speech API**: Speech-to-text and text-to-speech
-- **WebSocket Client**: Real-time connection to backend
+### 🎤 Real-Time Features
+- **Live Conversation Practice**: WebSocket-based instant messaging
+- **Speech-to-Text**: Speak naturally in your target language
+- **Text-to-Speech**: Hear responses with natural pronunciation
+- **Instant Feedback**: Grammar and vocabulary corrections in real-time
+- **Session Statistics**: Track messages, corrections, and accuracy live
 
-## Prerequisites
+## 🚀 Quick Start
 
-- Python 3.8+
-- Node.js 16+
-- OpenAI API key
-
-## Installation
-
-### 1. Clone the Repository
+### Installation
 
 ```bash
-git clone <repository-url>
-cd resaltimechat
-```
-
-### 2. Backend Setup
-
-```bash
+# Backend
 cd backend
-
-# Create virtual environment
 python -m venv venv
-
-# Activate virtual environment
-# On Windows:
-venv\Scripts\activate
-# On macOS/Linux:
-source venv/bin/activate
-
-# Install dependencies
+source venv/bin/activate  # or venv\Scripts\activate on Windows
 pip install -r requirements.txt
-
-# Create .env file
 cp .env.example .env
+# Edit .env and add OPENAI_API_KEY
 
-# Edit .env and add your OpenAI API key
-# OPENAI_API_KEY=your_api_key_here
-```
-
-### 3. Frontend Setup
-
-```bash
+# Frontend
 cd frontend
-
-# Install dependencies
 npm install
 ```
 
-## Running the Application
+### Run
 
-### Start the Backend
-
+**Easy way:**
 ```bash
-cd backend
-source venv/bin/activate  # or venv\Scripts\activate on Windows
-python main.py
+./start.sh  # Linux/Mac
+start.bat   # Windows
 ```
 
-The backend will start on `http://localhost:8000`
-
-### Start the Frontend
-
-In a new terminal:
-
+**Manual:**
 ```bash
-cd frontend
-npm start
+# Terminal 1 - Backend
+cd backend && python main.py
+
+# Terminal 2 - Frontend
+cd frontend && npm start
 ```
 
-The frontend will start on `http://localhost:3000`
+Visit `http://localhost:3000`
 
-## Usage
+## 📖 How to Use
 
-### Basic Conversation
+1. **Create Account**: Enter username on login screen
+2. **Select Language**: Choose from 10 languages
+3. **Upload Materials** (Optional): Add learning resources for context
+4. **Start Practicing**: Type or speak to practice
+5. **Track Progress**: Click "📊 Progress" to view analytics
+6. **Earn Achievements**: Unlock rewards as you learn
 
-1. Open your browser to `http://localhost:3000`
-2. Select your target language from the dropdown
-3. Start typing or click the microphone button to speak
-4. The AI will respond in your target language
-5. Listen to the pronunciation using text-to-speech
-6. Receive feedback on any language errors
+## 🎯 Key Features
 
-### Uploading Learning Materials
+### Adaptive Difficulty System
+- Starts at beginner level
+- Auto-upgrades with 80%+ accuracy (10+ messages)
+- Auto-downgrades if struggling (60%+ corrections)
+- Four levels: Beginner, Intermediate, Advanced, Expert
 
-1. Click "Upload Learning Materials"
-2. Select text files containing vocabulary, grammar rules, or conversation examples
-3. Upload the files
-4. The system will use these materials to provide contextual conversations
+### Achievement System
+- 🎯 **First Steps** - Complete first conversation (10 XP)
+- 💬 **Chat Master** - Send 100 messages (50 XP)
+- 🔥 **Week Warrior** - 7-day streak (100 XP)
+- 🌍 **Polyglot** - Practice 3 languages (75 XP)
+- ⭐ **Perfectionist** - 10 perfect messages (60 XP)
+- 📚 **Vocabulary Builder** - Learn 50 words (80 XP)
+- ⏰ **Dedicated Learner** - 10 hours practice (120 XP)
 
-Sample learning materials are provided in the `sample_materials/` directory:
-- `spanish_basics.txt` - Spanish vocabulary and phrases
-- `french_basics.txt` - French vocabulary and phrases
+### Progress Dashboard
+- **Overview**: Total XP, time, messages, streaks
+- **Achievements**: All unlocked achievements
+- **Analytics**: 7-day activity visualization
+- **Language Progress**: Per-language statistics
 
-### Voice Input
+## 🛠️ Technology Stack
 
-1. Click the microphone button
-2. Speak in your target language
-3. Your speech will be converted to text
-4. Send the message to get a response
+**Backend:**
+- FastAPI - Modern async web framework
+- SQLite - User data and analytics
+- ChromaDB - Vector database for RAG
+- OpenAI GPT-4 - Language model
+- WebSockets - Real-time communication
 
-### Getting Feedback
+**Frontend:**
+- React 18 - UI framework
+- Web Speech API - Voice features
+- CSS3 - Animations and styling
 
-- The system automatically analyzes your messages
-- Corrections are displayed below the conversation
-- Feedback includes explanations of errors
-- Visual indicators show your progress
-
-## API Endpoints
-
-### REST Endpoints
-
-- `GET /` - API information
-- `GET /health` - Health check
-- `POST /upload-documents` - Upload learning materials
-- `POST /set-language` - Set target practice language
-
-### WebSocket Endpoint
-
-- `WS /ws/practice` - Real-time conversation endpoint
-
-## Configuration
-
-### Backend Configuration
-
-Edit `backend/.env`:
-
-```env
-OPENAI_API_KEY=your_openai_api_key_here
-ANTHROPIC_API_KEY=your_anthropic_api_key_here  # Optional
-```
-
-### Frontend Configuration
-
-Default backend URL is `http://localhost:8000`. To change it, update the URLs in:
-- `frontend/src/components/LanguagePractice.js`
-- `frontend/src/components/DocumentUpload.js`
-
-## Browser Compatibility
-
-- **Chrome/Edge**: Full support (recommended)
-- **Firefox**: Full support
-- **Safari**: Full support
-- **Mobile browsers**: Partial support (speech features may vary)
-
-## Troubleshooting
-
-### WebSocket Connection Failed
-
-- Ensure the backend is running on port 8000
-- Check CORS settings in `backend/main.py`
-- Verify firewall settings
-
-### Speech Recognition Not Working
-
-- Ensure you're using HTTPS or localhost
-- Grant microphone permissions in your browser
-- Check browser compatibility
-
-### No AI Responses
-
-- Verify your OpenAI API key is set correctly
-- Check API key has sufficient credits
-- Review backend logs for errors
-
-### Upload Fails
-
-- Ensure files are text-based (.txt, .md)
-- Check file size (large files may timeout)
-- Verify backend is running
-
-## Project Structure
+## 📂 Project Structure
 
 ```
 resaltimechat/
 ├── backend/
-│   ├── main.py                 # FastAPI application
-│   ├── rag_system.py          # RAG implementation
-│   ├── conversation_manager.py # Conversation logic
-│   ├── requirements.txt        # Python dependencies
-│   └── .env.example           # Environment template
+│   ├── main.py                  # FastAPI app
+│   ├── database.py              # User & analytics DB
+│   ├── rag_system.py            # RAG implementation
+│   ├── conversation_manager.py  # Conversation logic
+│   └── requirements.txt
 ├── frontend/
-│   ├── public/
-│   │   └── index.html
-│   ├── src/
-│   │   ├── components/
-│   │   │   ├── LanguagePractice.js
-│   │   │   ├── LanguagePractice.css
-│   │   │   ├── DocumentUpload.js
-│   │   │   └── DocumentUpload.css
-│   │   ├── App.js
-│   │   ├── App.css
-│   │   ├── index.js
-│   │   └── index.css
+│   ├── src/components/
+│   │   ├── UserLogin.js         # Login screen
+│   │   ├── ProgressDashboard.js # Analytics
+│   │   ├── AchievementNotification.js
+│   │   ├── LanguagePractice.js  # Main chat
+│   │   └── DocumentUpload.js
 │   └── package.json
-├── sample_materials/
-│   ├── spanish_basics.txt
-│   └── french_basics.txt
-├── .gitignore
-└── README.md
+└── sample_materials/            # Sample learning content
 ```
 
-## Technology Stack
+## 🔌 API Endpoints
 
-### Backend Technologies
-- **FastAPI**: Modern, fast web framework
-- **ChromaDB**: Vector database for semantic search
-- **LangChain**: LLM application framework
-- **OpenAI GPT-4**: Language model
-- **Sentence Transformers**: Text embeddings
-- **Uvicorn**: ASGI server
+### REST API
+- `POST /api/users/create` - Create user
+- `GET /api/users/{username}/progress` - Get progress
+- `GET /api/users/{username}/achievements` - Get achievements
+- `GET /api/users/{username}/analytics` - Get analytics
+- `GET /api/leaderboard` - Global leaderboard
+- `POST /upload-documents` - Upload learning materials
 
-### Frontend Technologies
-- **React 18**: UI framework
-- **Web Speech API**: Speech recognition and synthesis
-- **WebSocket API**: Real-time communication
-- **Axios**: HTTP client
-- **CSS3**: Modern styling with gradients and animations
+### WebSocket
+- `WS /ws/practice` - Real-time conversation
 
-## Features in Detail
+## 🗄️ Database Schema
 
-### RAG System
+Key tables:
+- `users` - User profiles
+- `user_progress` - Progress per language
+- `learning_sessions` - Practice sessions
+- `vocabulary_items` - Learned words
+- `mistakes` - Error tracking
+- `achievements` - Available achievements
+- `user_achievements` - Unlocked achievements
+- `daily_activity` - Daily practice log
 
-The RAG system allows you to upload documents that provide context for conversations:
+## 🔧 Configuration
 
-1. Documents are split into chunks
-2. Each chunk is embedded using Sentence Transformers
-3. Embeddings are stored in ChromaDB
-4. When you send a message, relevant chunks are retrieved
-5. Retrieved context is included in the AI's prompt
-6. Responses are more relevant and personalized
+**Backend** (`.env`):
+```
+OPENAI_API_KEY=your_key_here
+```
 
-### Language Analysis
+**Frontend** URLs:
+- Defaults to `localhost:8000` for backend
+- Update in component files if needed
 
-Every message you send is analyzed for:
-- Grammar errors
-- Vocabulary mistakes
-- Syntax issues
-- Better alternatives
+## 📱 Browser Support
 
-Feedback is provided in real-time to help you improve.
+✅ Chrome/Edge (recommended)
+✅ Firefox
+✅ Safari
+✅ Opera
+⚠️ Mobile (partial speech support)
 
-### Conversation Management
+## 🐛 Troubleshooting
 
-- Sessions are managed per WebSocket connection
-- Conversation history is maintained
-- Context from previous messages is preserved
-- Sessions can be ended to get a summary
+**WebSocket won't connect:**
+- Ensure backend is running on port 8000
+- Check firewall settings
 
-## Development
+**No AI responses:**
+- Verify OpenAI API key in `.env`
+- Check API key has credits
 
-### Running in Development Mode
+**Speech not working:**
+- Use HTTPS or localhost
+- Grant microphone permissions
+- Check browser compatibility
 
-Backend with auto-reload:
+**Database errors:**
 ```bash
-cd backend
-uvicorn main:app --reload
+rm backend/learno.db  # Delete database
+# Restart backend - auto-recreates
 ```
 
-Frontend with hot-reload:
+## 🎨 Customization
+
+### Add New Achievement
+
+Edit `backend/database.py`:
+```python
+{
+    "id": "my_achievement",
+    "name": "Achievement Name",
+    "description": "What to do",
+    "requirement_type": "messages",
+    "requirement_value": 50,
+    "icon": "🎯",
+    "points": 25
+}
+```
+
+### Add New Language
+
+1. Add to `frontend/src/App.js` languages array
+2. Add language code in `LanguagePractice.js`
+3. Create sample materials (optional)
+
+## 🚦 Development
+
 ```bash
-cd frontend
-npm start
+# Backend with auto-reload
+cd backend && uvicorn main:app --reload
+
+# Frontend with hot-reload
+cd frontend && npm start
 ```
 
-### Adding New Languages
-
-1. Add language to the list in `frontend/src/App.js`
-2. Add language code mapping in `frontend/src/components/LanguagePractice.js`
-3. Create sample materials in `sample_materials/`
-
-### Customizing AI Behavior
-
-Edit the system prompt in `backend/conversation_manager.py`:
-- Adjust language complexity
-- Change conversation style
-- Modify correction strictness
-
-## Future Enhancements
-
-- [ ] Audio streaming for better real-time experience
-- [ ] Voice activity detection
-- [ ] Pronunciation scoring
-- [ ] Progress tracking and analytics
-- [ ] Conversation themes and scenarios
-- [ ] Multi-user support
-- [ ] Export conversation history
-- [ ] Mobile app versions
-- [ ] Offline mode with local models
-- [ ] Custom voice selection
-
-## Contributing
-
-Contributions are welcome! Please follow these steps:
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Test thoroughly
-5. Submit a pull request
-
-## License
-
-MIT License - feel free to use this project for learning and development.
-
-## Support
-
-For issues, questions, or suggestions:
-- Open an issue on GitHub
-- Check existing documentation
-- Review troubleshooting section
-
-## Acknowledgments
-
-- OpenAI for GPT-4 API
-- ChromaDB for vector database
-- FastAPI community
-- React community
-- All contributors
-
-## Security Notes
+## 🔐 Security Notes
 
 - Never commit `.env` files
-- Keep API keys secure
-- Use environment variables for sensitive data
-- Implement rate limiting in production
-- Add authentication for production use
+- Use environment variables for secrets
+- Implement authentication for production
+- Enable rate limiting
+- Use HTTPS in production
 
-## Performance Tips
+## 📊 Performance Tips
 
-- Upload smaller, focused learning materials
-- Clear ChromaDB periodically if it grows too large
-- Use WebSocket for all real-time communication
-- Optimize chunk sizes in RAG system
-- Monitor API usage and costs
+- Upload focused learning materials
+- Clear ChromaDB periodically
+- Monitor API usage
+- Cache frequently used prompts
+
+## 🎯 Future Enhancements
+
+- [ ] Interactive quizzes
+- [ ] Spaced repetition flashcards
+- [ ] Learning goals
+- [ ] Voice-only mode
+- [ ] Mobile apps
+- [ ] Pronunciation scoring
+- [ ] Study groups
+- [ ] Progress export
+
+## 🤝 Contributing
+
+1. Fork the repo
+2. Create feature branch
+3. Make changes
+4. Submit pull request
+
+## 📄 License
+
+MIT License
+
+## 🙏 Acknowledgments
+
+- OpenAI for GPT-4
+- ChromaDB team
+- FastAPI community
+- React community
+
+## 📝 Version History
+
+**v2.0** - Interactive Learning Update
+- User profiles and authentication
+- Adaptive difficulty system
+- Gamification (achievements, XP, streaks)
+- Progress analytics dashboard
+- Vocabulary and mistake tracking
+- Real-time statistics
+
+**v1.0** - Initial Release
+- Basic conversation practice
+- RAG system
+- Speech features
+- Real-time corrections
 
 ---
 
-**Happy Language Learning!** 🌍🗣️
+**Start Learning Today!** 🌍
+
+Create an account and begin your language learning journey with AI-powered, personalized conversations!
