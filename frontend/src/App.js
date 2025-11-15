@@ -5,6 +5,9 @@ import DocumentUpload from './components/DocumentUpload';
 import UserLogin from './components/UserLogin';
 import ProgressDashboard from './components/ProgressDashboard';
 import PracticeModes from './components/PracticeModes';
+import LearningGoals from './components/LearningGoals';
+import ConversationHistory from './components/ConversationHistory';
+import StudyNotes from './components/StudyNotes';
 
 function App() {
   const [selectedLanguage, setSelectedLanguage] = useState('English');
@@ -13,6 +16,9 @@ function App() {
   const [showDashboard, setShowDashboard] = useState(false);
   const [showPracticeModes, setShowPracticeModes] = useState(false);
   const [activeScenario, setActiveScenario] = useState(null);
+  const [showGoals, setShowGoals] = useState(false);
+  const [showHistory, setShowHistory] = useState(false);
+  const [showNotes, setShowNotes] = useState(false);
 
   const languages = [
     'English', 'Spanish', 'French', 'German', 'Italian',
@@ -96,6 +102,27 @@ function App() {
         </button>
       </div>
 
+      <div className="utility-menu">
+        <button
+          className="utility-button"
+          onClick={() => setShowGoals(true)}
+        >
+          🎯 Goals
+        </button>
+        <button
+          className="utility-button"
+          onClick={() => setShowHistory(true)}
+        >
+          💬 History
+        </button>
+        <button
+          className="utility-button"
+          onClick={() => setShowNotes(true)}
+        >
+          📝 Notes
+        </button>
+      </div>
+
       {showUpload && <DocumentUpload />}
 
       <LanguagePractice
@@ -118,6 +145,33 @@ function App() {
           onClose={() => setShowPracticeModes(false)}
           onStartScenario={(scenario) => setActiveScenario(scenario)}
         />
+      )}
+
+      {showGoals && (
+        <div className="modal-overlay" onClick={() => setShowGoals(false)}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <button className="modal-close" onClick={() => setShowGoals(false)}>✕</button>
+            <LearningGoals username={username} language={selectedLanguage} />
+          </div>
+        </div>
+      )}
+
+      {showHistory && (
+        <div className="modal-overlay" onClick={() => setShowHistory(false)}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <button className="modal-close" onClick={() => setShowHistory(false)}>✕</button>
+            <ConversationHistory username={username} language={selectedLanguage} />
+          </div>
+        </div>
+      )}
+
+      {showNotes && (
+        <div className="modal-overlay" onClick={() => setShowNotes(false)}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <button className="modal-close" onClick={() => setShowNotes(false)}>✕</button>
+            <StudyNotes username={username} language={selectedLanguage} />
+          </div>
+        </div>
       )}
     </div>
   );

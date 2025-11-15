@@ -12,6 +12,7 @@ from rag_system import RAGSystem
 from conversation_manager import ConversationManager
 from database import Database
 from practical_features import PracticalFeatures
+from usability_features import UsabilityFeatures
 
 load_dotenv()
 
@@ -31,6 +32,7 @@ database = Database()
 rag_system = RAGSystem()
 conversation_manager = ConversationManager(rag_system, database)
 practical_features = PracticalFeatures(database)
+usability_features = UsabilityFeatures(database)
 
 
 # Pydantic models
@@ -284,6 +286,130 @@ async def review_flashcard(username: str, vocab_id: str, confidence: int):
     conn.close()
 
     return {"status": "success", "next_review": next_review}
+
+
+# Usability Features Endpoints
+@app.post("/api/goals/create")
+async def create_goal(username: str, language: str, goal_type: str, title: str,
+                     target_value: int, deadline: Optional[str] = None, description: Optional[str] = None):
+    """Create a learning goal"""
+    user = database.get_user(username)
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    goal_id = usability_features.create_goal(
+        user['id'], language, goal_type, title, target_value, deadline, description
+    )
+    return {"status": "success", "goal_id": goal_id}
+
+
+@app.get("/api/goals/{username}")
+async def get_goals(username: str, language: Optional[str] = None):
+    """Get user's learning goals"""
+    user = database.get_user(username)
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    goals = usability_features.get_user_goals(user['id'], language)
+    return {"status": "success", "goals": goals}
+
+
+@app.post("/api/goals/{goal_id}/update")
+async def update_goal(goal_id: str, current_value: int):
+    """Update goal progress"""
+    usability_features.update_goal_progress(goal_id, current_value)
+    return {"status": "success"}
+
+
+@app.get("/api/history/{username}")
+async def get_history(username: str, language: Optional[str] = None, limit: int = 20):
+    """Get conversation history"""
+    user = database.get_user(username)
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    history = usability_features.get_conversation_history(user['id'], language, limit)
+    return {"status": "success", "history": history}
+
+
+@app.post("/api/history/save")
+async def save_conversation(username: str, session_id: str, language: str,
+                           messages: List[Dict], title: Optional[str] = None):
+    """Save conversation to history"""
+    user = database.get_user(username)
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    conv_id = usability_features.save_conversation(
+        user['id'], session_id, language, messages, title
+    )
+    return {"status": "success", "conversation_id": conv_id}
+
+
+@app.post("/api/notes/create")
+async def create_note(username: str, title: str, content: str,
+                     language: Optional[str] = None, topic: Optional[str] = None,
+                     tags: Optional[List[str]] = None):
+    """Create a study note"""
+    user = database.get_user(username)
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    note_id = usability_features.create_note(
+        user['id'], title, content, language, topic, tags
+    )
+    return {"status": "success", "note_id": note_id}
+
+
+@app.get("/api/notes/{username}")
+async def get_notes(username: str, language: Optional[str] = None):
+    """Get user's study notes"""
+    user = database.get_user(username)
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    notes = usability_features.get_user_notes(user['id'], language)
+    return {"status": "success", "notes": notes}
+
+
+@app.put("/api/notes/{note_id}")
+async def update_note(note_id: str, title: Optional[str] = None,
+                     content: Optional[str] = None, tags: Optional[List[str]] = None):
+    """Update a study note"""
+    usability_features.update_note(note_id, title, content, tags)
+    return {"status": "success"}
+
+
+@app.delete("/api/notes/{note_id}")
+async def delete_note(note_id: str):
+    """Delete a study note"""
+    usability_features.delete_note(note_id)
+    return {"status": "success"}
+
+
+@app.get("/api/quick-phrases")
+async def get_quick_phrases(language: str, category: Optional[str] = None):
+    """Get quick phrases"""
+    phrases = usability_features.get_quick_phrases(language, category)
+    return {"status": "success", "phrases": phrases}
+
+
+@app.post("/api/quick-phrases/{phrase_id}/use")
+async def use_phrase(phrase_id: str):
+    """Mark a phrase as used"""
+    usability_features.use_quick_phrase(phrase_id)
+    return {"status": "success"}
+
+
+@app.get("/api/export/{username}")
+async def export_data(username: str):
+    """Export all user data"""
+    user = database.get_user(username)
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    data = usability_features.export_user_data(user['id'])
+    return {"status": "success", "data": data}
 
 
 @app.websocket("/ws/practice")

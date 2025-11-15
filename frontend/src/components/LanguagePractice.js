@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './LanguagePractice.css';
 import AchievementNotification from './AchievementNotification';
+import QuickPhrases from './QuickPhrases';
 
 const LanguagePractice = ({ language, username, activeScenario }) => {
   const [messages, setMessages] = useState([]);
@@ -222,6 +223,10 @@ const LanguagePractice = ({ language, username, activeScenario }) => {
     }
   };
 
+  const handlePhraseSelect = (phrase) => {
+    setInputText(phrase);
+  };
+
   return (
     <>
       <div className="language-practice">
@@ -262,6 +267,8 @@ const LanguagePractice = ({ language, username, activeScenario }) => {
             <span className="stat-label">Accuracy</span>
           </div>
         </div>
+
+        <QuickPhrases language={language} onPhraseSelect={handlePhraseSelect} />
 
         <div className="messages-container">
           {messages.map((msg, idx) => (
