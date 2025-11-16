@@ -1,7 +1,7 @@
 {
   "name": "learno-backend-serverless",
-  "version": "5.0.0",
-  "description": "Learno Language Learning Platform - AI-Powered with RL Curriculum, Voice Interaction, Knex ORM",
+  "version": "6.0.0",
+  "description": "Learno - Complete AI Language Learning Platform: AI Content Generator, Conversation Simulator, Peer Learning, RL Curriculum, Gemini Voice",
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
@@ -29,7 +29,12 @@
     "real-time-voice",
     "gemini-2.5-flash",
     "native-audio",
-    "google-ai"
+    "google-ai",
+    "ai-content-generation",
+    "conversation-simulator",
+    "peer-learning",
+    "language-exchange",
+    "social-learning"
   ],
   "author": "Learno Team",
   "license": "MIT",
