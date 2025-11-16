@@ -1,0 +1,364 @@
+// Prisma schema for Learno Language Learning Platform
+// PostgreSQL database on Aurora Serverless v2
+
+generator client {
+  provider = "prisma-client-js"
+  binaryTargets = ["native", "rhel-openssl-1.0.x"] // For AWS Lambda
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ==================== User Management ====================
+
+model User {
+  id                String   @id @default(uuid())
+  cognitoSub        String   @unique
+  username          String   @unique
+  email             String   @unique
+  firstName         String?
+  lastName          String?
+  preferredLanguage String?
+  timezone          String   @default("UTC")
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  lastLoginAt       DateTime?
+
+  // Relations
+  progress          UserProgress[]
+  vocabularyItems   VocabularyItem[]
+  studySessions     StudySession[]
+  achievements      UserAchievement[]
+  goals             LearningGoal[]
+  notes             StudyNote[]
+  conversations     Conversation[]
+  documents         Document[]
+
+  @@index([email])
+  @@index([username])
+  @@index([cognitoSub])
+  @@map("users")
+}
+
+// ==================== Language Learning Progress ====================
+
+model UserProgress {
+  id              String   @id @default(uuid())
+  userId          String
+  language        String
+  currentLevel    String   @default("beginner") // beginner, intermediate, advanced
+  totalXP         Int      @default(0)
+  streak          Int      @default(0)
+  longestStreak   Int      @default(0)
+  lastPracticeAt  DateTime?
+  totalMinutes    Int      @default(0)
+  wordsLearned    Int      @default(0)
+  conversationCount Int    @default(0)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, language])
+  @@index([userId])
+  @@index([language])
+  @@index([lastPracticeAt])
+  @@map("user_progress")
+}
+
+// ==================== Vocabulary Learning ====================
+
+model VocabularyItem {
+  id              String   @id @default(uuid())
+  userId          String
+  language        String
+  word            String
+  translation     String
+  context         String?
+  difficulty      String   @default("beginner")
+  partOfSpeech    String?  // noun, verb, adjective, etc.
+
+  // Spaced Repetition (SM-2 algorithm)
+  repetitionLevel Int      @default(0)
+  easeFactor      Float    @default(2.5)
+  interval        Int      @default(0) // days
+  correctCount    Int      @default(0)
+  incorrectCount  Int      @default(0)
+  lastReviewedAt  DateTime?
+  nextReviewAt    DateTime @default(now())
+
+  // Metadata
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, language])
+  @@index([userId, nextReviewAt])
+  @@index([language, word])
+  @@map("vocabulary_items")
+}
+
+// ==================== Study Sessions ====================
+
+model StudySession {
+  id              String   @id @default(uuid())
+  userId          String
+  language        String
+  sessionType     String   // conversation, vocabulary, reading, grammar
+  difficulty      String
+  durationMinutes Int      @default(0)
+  xpEarned        Int      @default(0)
+  completed       Boolean  @default(false)
+  startedAt       DateTime @default(now())
+  endedAt         DateTime?
+
+  // Metadata
+  metadata        Json?    // Additional session data
+
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  conversations Conversation[]
+
+  @@index([userId, language])
+  @@index([userId, startedAt])
+  @@index([sessionType])
+  @@map("study_sessions")
+}
+
+// ==================== Conversations & Messages ====================
+
+model Conversation {
+  id              String   @id @default(uuid())
+  userId          String
+  sessionId       String
+  language        String
+  topic           String?
+  difficulty      String
+  messageCount    Int      @default(0)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  session StudySession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  messages ConversationMessage[]
+
+  @@index([userId, language])
+  @@index([sessionId])
+  @@index([createdAt])
+  @@map("conversations")
+}
+
+model ConversationMessage {
+  id              String   @id @default(uuid())
+  conversationId  String
+  role            String   // user, assistant, system
+  content         String   @db.Text
+  contentLanguage String?
+
+  // AI Analysis
+  corrections     Json?    // Array of corrections
+  feedback        String?  @db.Text
+  vocabulary      Json?    // New vocabulary from message
+  sentiment       String?  // positive, negative, neutral
+
+  // Metadata
+  createdAt       DateTime @default(now())
+
+  // Relations
+  conversation Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+
+  @@index([conversationId])
+  @@index([role])
+  @@index([createdAt])
+  @@map("conversation_messages")
+}
+
+// ==================== Documents & RAG ====================
+
+model Document {
+  id              String   @id @default(uuid())
+  userId          String
+  language        String
+  title           String
+  s3Key           String   @unique
+  contentType     String
+  sizeBytes       Int
+  status          String   @default("uploaded") // uploaded, processing, processed, failed
+
+  // RAG Processing
+  chunkCount      Int      @default(0)
+  embeddingModel  String?
+  processedAt     DateTime?
+
+  // Metadata
+  metadata        Json?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  chunks DocumentChunk[]
+
+  @@index([userId, language])
+  @@index([status])
+  @@index([createdAt])
+  @@map("documents")
+}
+
+model DocumentChunk {
+  id              String   @id @default(uuid())
+  documentId      String
+  chunkIndex      Int
+  content         String   @db.Text
+  milvusVectorId  String?  // Reference to vector in Milvus
+
+  // Metadata
+  metadata        Json?
+  createdAt       DateTime @default(now())
+
+  // Relations
+  document Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
+
+  @@unique([documentId, chunkIndex])
+  @@index([documentId])
+  @@index([milvusVectorId])
+  @@map("document_chunks")
+}
+
+// ==================== Learning Goals ====================
+
+model LearningGoal {
+  id              String   @id @default(uuid())
+  userId          String
+  language        String
+  goalType        String   // daily, weekly, monthly, custom
+  target          Int      // Target value (minutes, words, etc.)
+  current         Int      @default(0)
+  unit            String   // minutes, words, conversations
+  deadline        DateTime?
+  completed       Boolean  @default(false)
+  completedAt     DateTime?
+
+  // Metadata
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, language])
+  @@index([goalType, completed])
+  @@index([deadline])
+  @@map("learning_goals")
+}
+
+// ==================== Achievements & Gamification ====================
+
+model Achievement {
+  id              String   @id @default(uuid())
+  code            String   @unique
+  name            String
+  description     String   @db.Text
+  category        String   // streak, vocabulary, conversation, etc.
+  requirement     Json     // Requirements to unlock
+  xpReward        Int      @default(0)
+  iconUrl         String?
+
+  // Metadata
+  createdAt       DateTime @default(now())
+
+  // Relations
+  userAchievements UserAchievement[]
+
+  @@index([category])
+  @@map("achievements")
+}
+
+model UserAchievement {
+  id              String   @id @default(uuid())
+  userId          String
+  achievementId   String
+  unlockedAt      DateTime @default(now())
+
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  achievement Achievement @relation(fields: [achievementId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, achievementId])
+  @@index([userId])
+  @@index([achievementId])
+  @@map("user_achievements")
+}
+
+// ==================== Study Notes ====================
+
+model StudyNote {
+  id              String   @id @default(uuid())
+  userId          String
+  language        String
+  title           String
+  content         String   @db.Text
+  category        String?  // grammar, vocabulary, culture, etc.
+  tags            String[] // Array of tags
+
+  // Metadata
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, language])
+  @@index([category])
+  @@index([createdAt])
+  @@map("study_notes")
+}
+
+// ==================== Long-term Memory Patterns ====================
+
+model MemoryPattern {
+  id              String   @id @default(uuid())
+  userId          String
+  language        String
+  patternType     String   // error_patterns, topic_preferences, learning_style
+  patternData     Json     // Flexible JSON storage for pattern data
+  confidence      Float    @default(0.5)
+  occurrenceCount Int      @default(1)
+  lastObservedAt  DateTime @default(now())
+
+  // Metadata
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([userId, language, patternType])
+  @@index([patternType])
+  @@map("memory_patterns")
+}
+
+// ==================== Q-Learning for RL System ====================
+
+model QValue {
+  id              String   @id @default(uuid())
+  userId          String
+  language        String
+  stateKey        String   // Encoded state representation
+  actionKey       String   // Encoded action representation
+  qValue          Float    @default(0.0)
+  visitCount      Int      @default(0)
+  lastUpdatedAt   DateTime @default(now())
+
+  // Metadata
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@unique([userId, language, stateKey, actionKey])
+  @@index([userId, language])
+  @@index([stateKey])
+  @@map("q_values")
+}
