@@ -14,6 +14,7 @@ from database import Database
 from practical_features import PracticalFeatures
 from usability_features import UsabilityFeatures
 from advanced_features import AdvancedFeatures
+from rl_memory_system import RLMemorySystem
 
 load_dotenv()
 
@@ -35,6 +36,7 @@ conversation_manager = ConversationManager(rag_system, database)
 practical_features = PracticalFeatures(database)
 usability_features = UsabilityFeatures(database)
 advanced_features = AdvancedFeatures(database)
+rl_memory = RLMemorySystem(database)
 
 
 # Pydantic models
@@ -560,6 +562,130 @@ async def get_leaderboard(language: str, period: str = "all_time", limit: int = 
     """Get leaderboard rankings"""
     leaderboard = advanced_features.get_leaderboard(language, period, limit)
     return {"status": "success", "leaderboard": leaderboard}
+
+
+# ========== RL Memory System Endpoints ==========
+
+# Short-term Memory Endpoints
+@app.post("/api/memory/short-term/add")
+async def add_short_term_memory(username: str, session_id: str, language: str,
+                               memory_type: str, content: str, context: Optional[Dict] = None,
+                               importance: float = 0.5, ttl_hours: int = 24):
+    """Add short-term memory"""
+    user = database.get_user(username)
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    memory_id = rl_memory.add_short_term_memory(
+        user['id'], session_id, language, memory_type, content, context, importance, ttl_hours
+    )
+    return {"status": "success", "memory_id": memory_id}
+
+
+@app.get("/api/memory/short-term/get")
+async def get_short_term_memory(username: str, language: Optional[str] = None,
+                               memory_type: Optional[str] = None, limit: int = 50):
+    """Get short-term memories"""
+    user = database.get_user(username)
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    memories = rl_memory.get_short_term_memory(user['id'], language, memory_type, limit)
+    return {"status": "success", "memories": memories}
+
+
+@app.get("/api/memory/session-context")
+async def get_session_context(username: str, session_id: str):
+    """Get session context from short-term memory"""
+    user = database.get_user(username)
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    context = rl_memory.get_session_context(user['id'], session_id)
+    return {"status": "success", "context": context}
+
+
+# Long-term Memory Endpoints
+@app.post("/api/memory/long-term/update")
+async def update_long_term_pattern(username: str, language: str, pattern_type: str,
+                                  pattern_data: Dict, confidence: Optional[float] = None):
+    """Update long-term memory pattern"""
+    user = database.get_user(username)
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    pattern_id = rl_memory.update_long_term_pattern(
+        user['id'], language, pattern_type, pattern_data, confidence
+    )
+    return {"status": "success", "pattern_id": pattern_id}
+
+
+@app.get("/api/memory/long-term/get")
+async def get_long_term_patterns(username: str, language: Optional[str] = None,
+                                 pattern_type: Optional[str] = None):
+    """Get long-term memory patterns"""
+    user = database.get_user(username)
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    patterns = rl_memory.get_long_term_patterns(user['id'], language, pattern_type)
+    return {"status": "success", "patterns": patterns}
+
+
+@app.post("/api/memory/learn-interaction")
+async def learn_from_interaction(username: str, language: str, interaction_data: Dict):
+    """Learn from user interaction"""
+    user = database.get_user(username)
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    rl_memory.learn_from_interaction(user['id'], language, interaction_data)
+    return {"status": "success"}
+
+
+# RL Recommendation Endpoints
+@app.get("/api/rl/recommendations")
+async def get_personalized_recommendations(username: str, language: str):
+    """Get personalized recommendations using RL"""
+    user = database.get_user(username)
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    recommendations = rl_memory.generate_personalized_recommendations(user['id'], language)
+    return {"status": "success", "recommendations": recommendations}
+
+
+@app.post("/api/rl/recommend-action")
+async def recommend_action(username: str, language: str, possible_actions: List[str]):
+    """Get RL-based action recommendation"""
+    user = database.get_user(username)
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    action, confidence = rl_memory.recommend_action(user['id'], language, possible_actions)
+    return {"status": "success", "action": action, "confidence": confidence}
+
+
+@app.post("/api/rl/feedback")
+async def record_feedback(username: str, language: str, action: str, reward: float):
+    """Record user feedback for RL"""
+    user = database.get_user(username)
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    rl_memory.record_feedback(user['id'], language, action, reward)
+    return {"status": "success"}
+
+
+@app.get("/api/memory/summary")
+async def get_memory_summary(username: str, language: str):
+    """Get comprehensive memory summary"""
+    user = database.get_user(username)
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    summary = rl_memory.get_memory_summary(user['id'], language)
+    return {"status": "success", "summary": summary}
 
 
 @app.websocket("/ws/practice")

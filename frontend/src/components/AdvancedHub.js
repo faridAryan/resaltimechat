@@ -6,11 +6,13 @@ import StreakCalendar from './StreakCalendar';
 import Leaderboard from './Leaderboard';
 import ReadingMode from './ReadingMode';
 import GrammarTips from './GrammarTips';
+import MemoryInsights from './MemoryInsights';
 
 const AdvancedHub = ({ username, language, onClose }) => {
   const [activeTab, setActiveTab] = useState('vocabulary');
 
   const tabs = [
+    { id: 'memory', label: 'AI Memory', icon: '🧠' },
     { id: 'vocabulary', label: 'Vocabulary Trainer', icon: '📚' },
     { id: 'reading', label: 'Reading', icon: '📖' },
     { id: 'grammar', label: 'Grammar Tips', icon: '📝' },
@@ -41,6 +43,9 @@ const AdvancedHub = ({ username, language, onClose }) => {
         </div>
 
         <div className="hub-content-area">
+          {activeTab === 'memory' && (
+            <MemoryInsights username={username} language={language} />
+          )}
           {activeTab === 'vocabulary' && (
             <VocabularyTrainer username={username} language={language} />
           )}

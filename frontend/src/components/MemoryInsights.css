@@ -1,0 +1,381 @@
+.memory-insights {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.memory-insights.loading {
+  text-align: center;
+  padding: 60px 20px;
+  color: #999;
+  font-size: 1.1rem;
+}
+
+.insights-header {
+  margin-bottom: 24px;
+}
+
+.insights-header h2 {
+  color: #333;
+  margin-bottom: 16px;
+}
+
+.memory-stats {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.stat-chip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.stat-icon {
+  font-size: 1.1rem;
+}
+
+.insights-tabs {
+  display: flex;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  margin-bottom: 24px;
+}
+
+.insights-tab {
+  flex: 1;
+  padding: 16px 12px;
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-weight: 600;
+  color: #666;
+}
+
+.insights-tab:hover {
+  background: #f8f9fa;
+}
+
+.insights-tab.active {
+  border-bottom-color: #667eea;
+  color: #667eea;
+  background: linear-gradient(to bottom, rgba(102, 126, 234, 0.1), transparent);
+}
+
+.tab-icon {
+  font-size: 1.2rem;
+}
+
+.insights-content {
+  min-height: 400px;
+}
+
+/* Recommendations View */
+.recommendations-view {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.recommendation-card {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.recommendation-card.primary {
+  border: 2px solid #667eea;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+}
+
+.recommendation-card h3 {
+  margin: 0 0 16px 0;
+  color: #333;
+}
+
+.confidence-bar {
+  width: 100%;
+  height: 8px;
+  background: #e9ecef;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.confidence-fill {
+  height: 100%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 4px;
+  transition: width 0.5s ease;
+}
+
+.confidence-label {
+  font-size: 0.85rem;
+  color: #666;
+  margin-bottom: 24px;
+}
+
+.recommendation-section {
+  margin-bottom: 24px;
+}
+
+.recommendation-section:last-child {
+  margin-bottom: 0;
+}
+
+.recommendation-section h4 {
+  margin: 0 0 12px 0;
+  color: #667eea;
+  font-size: 1rem;
+}
+
+.topic-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.topic-chip {
+  padding: 8px 16px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-radius: 16px;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.difficulty-badge {
+  display: inline-block;
+  padding: 8px 20px;
+  background: #28a745;
+  color: white;
+  border-radius: 8px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.content-type {
+  display: inline-block;
+  padding: 8px 20px;
+  background: #17a2b8;
+  color: white;
+  border-radius: 8px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.time-display {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #667eea;
+}
+
+.focus-list {
+  margin: 0;
+  padding-left: 20px;
+  color: #333;
+}
+
+.focus-list li {
+  margin-bottom: 8px;
+  line-height: 1.6;
+}
+
+/* Short-term Memory View */
+.short-term-view,
+.long-term-view {
+  min-height: 400px;
+}
+
+.view-description {
+  color: #666;
+  margin-bottom: 20px;
+  font-style: italic;
+}
+
+.memory-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.memory-item {
+  background: white;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  border-left: 4px solid #667eea;
+}
+
+.memory-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.memory-icon {
+  font-size: 1.5rem;
+}
+
+.memory-type {
+  flex: 1;
+  font-weight: 600;
+  color: #333;
+  text-transform: capitalize;
+}
+
+.memory-importance {
+  font-size: 0.85rem;
+  color: #667eea;
+  font-weight: 600;
+}
+
+.memory-content {
+  color: #333;
+  line-height: 1.6;
+  margin-bottom: 12px;
+}
+
+.memory-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.memory-time {
+  font-size: 0.8rem;
+  color: #999;
+}
+
+/* Long-term Patterns View */
+.pattern-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
+}
+
+.pattern-card {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  border: 2px solid #e9ecef;
+  transition: all 0.2s ease;
+}
+
+.pattern-card:hover {
+  border-color: #667eea;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(102, 126, 234, 0.15);
+}
+
+.pattern-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.pattern-header h4 {
+  margin: 0;
+  color: #333;
+  font-size: 1.1rem;
+}
+
+.confidence-badge {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.pattern-data {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.pattern-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.pattern-key {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.pattern-value {
+  font-weight: 600;
+  color: #333;
+}
+
+.pattern-meta {
+  color: #999;
+  font-size: 0.85rem;
+  padding-top: 12px;
+  border-top: 1px solid #f0f0f0;
+}
+
+/* Empty States */
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.empty-icon {
+  font-size: 5rem;
+  margin-bottom: 16px;
+}
+
+.empty-state p {
+  color: #666;
+  font-size: 1.1rem;
+}
+
+@media (max-width: 768px) {
+  .pattern-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .insights-tabs {
+    flex-direction: column;
+  }
+
+  .insights-tab {
+    border-bottom: none;
+    border-left: 3px solid transparent;
+  }
+
+  .insights-tab.active {
+    border-bottom-color: transparent;
+    border-left-color: #667eea;
+  }
+
+  .memory-stats {
+    flex-direction: column;
+  }
+}
