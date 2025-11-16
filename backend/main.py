@@ -13,6 +13,7 @@ from conversation_manager import ConversationManager
 from database import Database
 from practical_features import PracticalFeatures
 from usability_features import UsabilityFeatures
+from advanced_features import AdvancedFeatures
 
 load_dotenv()
 
@@ -33,6 +34,7 @@ rag_system = RAGSystem()
 conversation_manager = ConversationManager(rag_system, database)
 practical_features = PracticalFeatures(database)
 usability_features = UsabilityFeatures(database)
+advanced_features = AdvancedFeatures(database)
 
 
 # Pydantic models
@@ -410,6 +412,154 @@ async def export_data(username: str):
 
     data = usability_features.export_user_data(user['id'])
     return {"status": "success", "data": data}
+
+
+# ========== Advanced Features Endpoints ==========
+
+# Vocabulary Trainer Endpoints
+@app.post("/api/vocabulary/create")
+async def create_vocabulary_exercise(username: str, language: str, word: str,
+                                    translation: str, exercise_type: str = "translation"):
+    """Create a new vocabulary exercise"""
+    user = database.get_user(username)
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    exercise_id = advanced_features.create_vocabulary_exercise(
+        user['id'], language, word, translation, exercise_type
+    )
+    return {"status": "success", "exercise_id": exercise_id}
+
+
+@app.get("/api/vocabulary/list")
+async def get_vocabulary_exercises(username: str, language: str, due_only: bool = False):
+    """Get vocabulary exercises for practice"""
+    user = database.get_user(username)
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    exercises = advanced_features.get_vocabulary_exercises(user['id'], language, due_only)
+    return {"status": "success", "exercises": exercises}
+
+
+@app.post("/api/vocabulary/update")
+async def update_vocabulary_progress(exercise_id: str, correct: bool):
+    """Update vocabulary exercise progress"""
+    result = advanced_features.update_vocabulary_progress(exercise_id, correct)
+    return {"status": "success", **result}
+
+
+# Grammar Tips Endpoints
+@app.get("/api/grammar/tips")
+async def get_grammar_tips(language: str, difficulty_level: Optional[str] = None,
+                          category: Optional[str] = None):
+    """Get grammar tips"""
+    tips = advanced_features.get_grammar_tips(language, difficulty_level, category)
+    return {"status": "success", "tips": tips}
+
+
+@app.get("/api/grammar/random-tip")
+async def get_random_grammar_tip(language: str, difficulty_level: str):
+    """Get a random grammar tip"""
+    tip = advanced_features.get_random_grammar_tip(language, difficulty_level)
+    if not tip:
+        raise HTTPException(status_code=404, detail="No tips found")
+    return {"status": "success", "tip": tip}
+
+
+# Custom Topics Endpoints
+@app.post("/api/topics/create")
+async def create_custom_topic(username: str, language: str, title: str, description: str,
+                             keywords: List[str], context: str = "", vocabulary: Optional[List[str]] = None):
+    """Create a custom learning topic"""
+    user = database.get_user(username)
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    topic_id = advanced_features.create_custom_topic(
+        user['id'], language, title, description, keywords, context, vocabulary
+    )
+    return {"status": "success", "topic_id": topic_id}
+
+
+@app.get("/api/topics/list")
+async def get_custom_topics(username: str, language: str):
+    """Get user's custom topics"""
+    user = database.get_user(username)
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    topics = advanced_features.get_custom_topics(user['id'], language)
+    return {"status": "success", "topics": topics}
+
+
+# Reading Materials Endpoints
+@app.get("/api/reading/materials")
+async def get_reading_materials(language: str, difficulty_level: Optional[str] = None):
+    """Get reading materials"""
+    materials = advanced_features.get_reading_materials(language, difficulty_level)
+    return {"status": "success", "materials": materials}
+
+
+@app.post("/api/reading/progress")
+async def save_reading_progress(username: str, material_id: str, completed: bool,
+                               comprehension_score: Optional[int] = None,
+                               time_spent: Optional[int] = None, notes: str = ""):
+    """Save reading progress"""
+    user = database.get_user(username)
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    progress_id = advanced_features.save_reading_progress(
+        user['id'], material_id, completed, comprehension_score, time_spent, notes
+    )
+    return {"status": "success", "progress_id": progress_id}
+
+
+# Practice Calendar Endpoints
+@app.post("/api/calendar/record")
+async def record_practice_activity(username: str, language: str, practice_time: int,
+                                  messages_sent: int, activities: List[str]):
+    """Record daily practice activity"""
+    user = database.get_user(username)
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    activity_id = advanced_features.record_practice_activity(
+        user['id'], language, practice_time, messages_sent, activities
+    )
+    return {"status": "success", "activity_id": activity_id}
+
+
+@app.get("/api/calendar/get")
+async def get_practice_calendar(username: str, language: str, days: int = 90):
+    """Get practice calendar"""
+    user = database.get_user(username)
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    calendar = advanced_features.get_practice_calendar(user['id'], language, days)
+    return {"status": "success", "calendar": calendar}
+
+
+# Progress Reports Endpoint
+@app.get("/api/reports/progress")
+async def get_progress_report(username: str, language: str, period: str = "week"):
+    """Get comprehensive progress report"""
+    user = database.get_user(username)
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    report = advanced_features.generate_progress_report(user['id'], language, period)
+    return {"status": "success", "report": report}
+
+
+# Leaderboard Endpoint
+@app.get("/api/leaderboard")
+async def get_leaderboard(language: str, period: str = "all_time", limit: int = 50):
+    """Get leaderboard rankings"""
+    leaderboard = advanced_features.get_leaderboard(language, period, limit)
+    return {"status": "success", "leaderboard": leaderboard}
 
 
 @app.websocket("/ws/practice")

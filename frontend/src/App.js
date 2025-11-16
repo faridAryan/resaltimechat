@@ -8,6 +8,7 @@ import PracticeModes from './components/PracticeModes';
 import LearningGoals from './components/LearningGoals';
 import ConversationHistory from './components/ConversationHistory';
 import StudyNotes from './components/StudyNotes';
+import AdvancedHub from './components/AdvancedHub';
 
 function App() {
   const [selectedLanguage, setSelectedLanguage] = useState('English');
@@ -19,6 +20,7 @@ function App() {
   const [showGoals, setShowGoals] = useState(false);
   const [showHistory, setShowHistory] = useState(false);
   const [showNotes, setShowNotes] = useState(false);
+  const [showAdvanced, setShowAdvanced] = useState(false);
 
   const languages = [
     'English', 'Spanish', 'French', 'German', 'Italian',
@@ -64,6 +66,12 @@ function App() {
               onClick={() => setShowDashboard(true)}
             >
               📊 Progress
+            </button>
+            <button
+              className="advanced-button"
+              onClick={() => setShowAdvanced(true)}
+            >
+              🚀 Advanced
             </button>
             <button
               className="logout-button"
@@ -172,6 +180,14 @@ function App() {
             <StudyNotes username={username} language={selectedLanguage} />
           </div>
         </div>
+      )}
+
+      {showAdvanced && (
+        <AdvancedHub
+          username={username}
+          language={selectedLanguage}
+          onClose={() => setShowAdvanced(false)}
+        />
       )}
     </div>
   );

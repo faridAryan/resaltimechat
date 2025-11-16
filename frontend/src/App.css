@@ -62,6 +62,7 @@
 }
 
 .dashboard-button,
+.advanced-button,
 .logout-button {
   padding: 10px 20px;
   font-size: 1rem;
@@ -81,6 +82,17 @@
   background: white;
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
+}
+
+.advanced-button {
+  background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+  color: #333;
+}
+
+.advanced-button:hover {
+  background: linear-gradient(135deg, #ffed4e 0%, #ffd700 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 215, 0, 0.5);
 }
 
 .logout-button {
