@@ -26,7 +26,10 @@
     "vector-database",
     "reinforcement-learning",
     "voice-recognition",
-    "real-time-voice"
+    "real-time-voice",
+    "gemini-2.5-flash",
+    "native-audio",
+    "google-ai"
   ],
   "author": "Learno Team",
   "license": "MIT",
@@ -38,8 +41,7 @@
     "@aws-sdk/client-cognito-identity-provider": "^3.490.0",
     "@aws-sdk/client-rds-data": "^3.490.0",
     "@aws-sdk/client-secrets-manager": "^3.490.0",
-    "@aws-sdk/client-transcribe-streaming": "^3.490.0",
-    "@aws-sdk/client-polly": "^3.490.0",
+    "@google/generative-ai": "^0.21.0",
     "@aws-sdk/lib-dynamodb": "^3.490.0",
     "@aws-sdk/s3-request-presigner": "^3.490.0",
     "@langchain/core": "^0.1.5",
