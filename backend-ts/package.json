@@ -1,7 +1,7 @@
 {
   "name": "learno-backend-serverless",
-  "version": "6.0.0",
-  "description": "Learno - Complete AI Language Learning Platform: AI Content Generator, Conversation Simulator, Peer Learning, RL Curriculum, Gemini Voice",
+  "version": "6.1.0",
+  "description": "Learno - Complete AI Language Learning Platform: AI Content Generator, Real-Time Dialogue Practice, Conversation Simulator, Peer Learning, RL Curriculum, Gemini Voice",
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
@@ -34,7 +34,12 @@
     "conversation-simulator",
     "peer-learning",
     "language-exchange",
-    "social-learning"
+    "social-learning",
+    "real-time-dialogue",
+    "bidirectional-streaming",
+    "live-transcription",
+    "pronunciation-feedback",
+    "fluency-training"
   ],
   "author": "Learno Team",
   "license": "MIT",
