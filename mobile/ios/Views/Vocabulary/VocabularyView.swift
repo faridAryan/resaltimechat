@@ -11,7 +11,7 @@ struct VocabularyView: View {
                 VStack(alignment: .leading, spacing: 20) {
                     // Due Cards Banner
                     if !viewModel.dueCards.isEmpty {
-                        NavigationLink(destination: ReviewCardsView(cards: viewModel.dueCards)) {
+                        NavigationLink(destination: VocabularyReviewView()) {
                             DueCardsBanner(count: viewModel.dueCards.count)
                         }
                         .padding(.horizontal)

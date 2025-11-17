@@ -135,43 +135,9 @@ struct PracticeModeCard: View {
 struct PracticeSessionView: View {
     let mode: String
     let title: String
-    @EnvironmentObject var appState: AppState
-    @State private var isRecording = false
-    @State private var transcript = ""
 
     var body: some View {
-        VStack {
-            Spacer()
-
-            // Conversation Area
-            ScrollView {
-                VStack(alignment: .leading, spacing: 15) {
-                    if !transcript.isEmpty {
-                        MessageBubble(text: transcript, isUser: true)
-                    }
-                }
-                .padding()
-            }
-
-            Spacer()
-
-            // Recording Button
-            Button(action: {
-                isRecording.toggle()
-            }) {
-                VStack(spacing: 10) {
-                    Image(systemName: isRecording ? "stop.circle.fill" : "mic.circle.fill")
-                        .font(.system(size: 80))
-                        .foregroundColor(isRecording ? .red : .blue)
-
-                    Text(isRecording ? "Recording..." : "Tap to speak")
-                        .font(.subheadline)
-                        .fontWeight(.medium)
-                }
-            }
-            .padding(.bottom, 50)
-        }
-        .navigationTitle(title)
+        DialoguePracticeView(mode: mode, title: title)
     }
 }
 
