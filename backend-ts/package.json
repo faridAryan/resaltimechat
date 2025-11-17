@@ -1,7 +1,7 @@
 {
   "name": "learno-backend-serverless",
-  "version": "7.0.0",
-  "description": "Learno - Complete AI Language Learning Platform: Spaced Repetition, Progress Analytics, Writing Practice, AI Content Generator, Real-Time Dialogue, 30 Scenarios, Peer Learning, RL Curriculum, Gemini Voice, LangChain",
+  "version": "7.1.0",
+  "description": "Learno - Complete AI Language Learning Platform: Interactive Short Stories, Spaced Repetition, Progress Analytics, Writing Practice, AI Content Generator, Real-Time Dialogue, 30 Scenarios, Peer Learning, RL Curriculum, Gemini Voice, LangChain",
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
@@ -57,7 +57,14 @@
     "predictive-analytics",
     "writing-correction",
     "essay-feedback",
-    "grammar-checking"
+    "grammar-checking",
+    "short-stories",
+    "reading-comprehension",
+    "interactive-reading",
+    "ai-generated-stories",
+    "story-illustrations",
+    "level-based-reading",
+    "reading-practice"
   ],
   "author": "Learno Team",
   "license": "MIT",
