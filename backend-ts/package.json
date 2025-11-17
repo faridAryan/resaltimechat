@@ -1,7 +1,7 @@
 {
   "name": "learno-backend-serverless",
-  "version": "6.2.0",
-  "description": "Learno - Complete AI Language Learning Platform: AI Content Generator, Real-Time Dialogue Practice, 30 Conversation Scenarios, Peer Learning, RL Curriculum, Gemini Voice",
+  "version": "6.3.0",
+  "description": "Learno - Complete AI Language Learning Platform with LangChain: AI Content Generator, Real-Time Dialogue Practice, 30 Conversation Scenarios, Peer Learning, RL Curriculum, Gemini Voice",
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
@@ -42,7 +42,12 @@
     "fluency-training",
     "30-scenarios",
     "role-play",
-    "real-world-practice"
+    "real-world-practice",
+    "langchain",
+    "structured-output",
+    "prompt-templates",
+    "conversation-memory",
+    "zod-validation"
   ],
   "author": "Learno Team",
   "license": "MIT",
@@ -58,6 +63,7 @@
     "@aws-sdk/lib-dynamodb": "^3.490.0",
     "@aws-sdk/s3-request-presigner": "^3.490.0",
     "@langchain/core": "^0.1.5",
+    "@langchain/google-genai": "^0.0.25",
     "@langchain/openai": "^0.0.14",
     "@langchain/community": "^0.0.20",
     "langchain": "^0.1.5",
