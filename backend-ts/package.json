@@ -1,6 +1,6 @@
 {
   "name": "learno-backend-serverless",
-  "version": "7.2.0",
+  "version": "7.3.0",
   "description": "Learno - Complete AI Language Learning Platform with Native Mobile Apps (iOS/Android): Interactive Short Stories, Spaced Repetition, Progress Analytics, Writing Practice, AI Content Generator, Real-Time Dialogue, 30 Scenarios, Peer Learning, RL Curriculum, Gemini Voice, LangChain",
   "main": "dist/index.js",
   "scripts": {
