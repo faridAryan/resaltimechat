@@ -1,7 +1,7 @@
 {
   "name": "learno-backend-serverless",
-  "version": "7.1.0",
-  "description": "Learno - Complete AI Language Learning Platform: Interactive Short Stories, Spaced Repetition, Progress Analytics, Writing Practice, AI Content Generator, Real-Time Dialogue, 30 Scenarios, Peer Learning, RL Curriculum, Gemini Voice, LangChain",
+  "version": "7.2.0",
+  "description": "Learno - Complete AI Language Learning Platform with Native Mobile Apps (iOS/Android): Interactive Short Stories, Spaced Repetition, Progress Analytics, Writing Practice, AI Content Generator, Real-Time Dialogue, 30 Scenarios, Peer Learning, RL Curriculum, Gemini Voice, LangChain",
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
@@ -64,7 +64,15 @@
     "ai-generated-stories",
     "story-illustrations",
     "level-based-reading",
-    "reading-practice"
+    "reading-practice",
+    "ios-app",
+    "android-app",
+    "swift",
+    "swiftui",
+    "kotlin",
+    "jetpack-compose",
+    "mobile-learning",
+    "native-mobile"
   ],
   "author": "Learno Team",
   "license": "MIT",
